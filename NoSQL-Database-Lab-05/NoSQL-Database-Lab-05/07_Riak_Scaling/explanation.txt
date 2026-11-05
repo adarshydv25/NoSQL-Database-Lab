@@ -1,0 +1,18 @@
+RIAK HORIZONTAL SCALING
+
+Riak distributes objects across a cluster using consistent hashing and a ring of partitions.
+Each node owns a number of partitions. An object's bucket/key combination is hashed to
+determine its primary partition and replica placement.
+
+Adding nodes can add capacity and rebalance partition ownership. Replication provides
+multiple copies of objects across nodes. More nodes can increase storage and throughput,
+but performance still depends on hardware, network, replication settings and workload.
+
+To demonstrate scaling properly:
+1. Start a multi-node Riak cluster.
+2. Join nodes to the cluster using the documented cluster-join procedure.
+3. Commit the cluster plan.
+4. Check cluster status and ring ownership.
+5. Insert a large number of keys and verify requests through the cluster.
+
+The shell script only inserts data. It does not create a multi-node cluster by itself.

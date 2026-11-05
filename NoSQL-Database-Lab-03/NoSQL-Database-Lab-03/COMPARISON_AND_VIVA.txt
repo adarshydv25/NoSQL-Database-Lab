@@ -1,0 +1,21 @@
+LAB SHEET 03 - SHORT COMPARISON / VIVA NOTES
+
+1. MongoDB document: Stores data as flexible BSON documents. Useful when fields vary.
+2. Embedded document: Stores related information inside one parent document. It can
+   reduce joins and make a complete object easy to retrieve.
+3. Aggregation: Processes documents through stages such as $match, $group, $project
+   and $sort to calculate summaries.
+4. Index: Improves query speed for indexed fields, but uses extra storage and can slow writes.
+5. Transaction: Groups multiple database operations into one atomic unit. In this lab,
+   the wallet transfer needs a replica set or sharded MongoDB deployment.
+6. Sharding: Splits data across multiple servers using a shard key.
+7. Replication: Maintains copies of data on multiple database members.
+8. MapReduce: Map emits key/value pairs; Reduce combines values for each key. Modern
+   MongoDB recommends aggregation pipelines for most such calculations.
+9. Flexible schema: Documents in one collection can contain different fields.
+10. Embedded vs referenced data: Embed data read together and bounded in size; reference
+    data that is large, shared by many records, or updated independently.
+
+IMPORTANT DIFFERENCE
+Task 14 is implemented using a status-history array. Each update appends a new status
+event and changes currentStatus. This keeps an audit trail of the order journey.

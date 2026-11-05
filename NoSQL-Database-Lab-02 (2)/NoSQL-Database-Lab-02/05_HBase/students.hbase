@@ -1,0 +1,41 @@
+# Create table with two column families
+create 'Students', 'personal', 'academic'
+
+# 1. Insert five student records
+put 'Students', '101', 'personal:name', 'Aarav Sharma'
+put 'Students', '101', 'personal:course', 'BCA'
+put 'Students', '101', 'academic:semester', '5'
+put 'Students', '101', 'academic:marks', '82'
+
+put 'Students', '102', 'personal:name', 'Priya Verma'
+put 'Students', '102', 'personal:course', 'BCA'
+put 'Students', '102', 'academic:semester', '5'
+put 'Students', '102', 'academic:marks', '91'
+
+put 'Students', '103', 'personal:name', 'Rahul Singh'
+put 'Students', '103', 'personal:course', 'BSc IT'
+put 'Students', '103', 'academic:semester', '3'
+put 'Students', '103', 'academic:marks', '76'
+
+put 'Students', '104', 'personal:name', 'Neha Gupta'
+put 'Students', '104', 'personal:course', 'BCA'
+put 'Students', '104', 'academic:semester', '3'
+put 'Students', '104', 'academic:marks', '88'
+
+put 'Students', '105', 'personal:name', 'Karan Joshi'
+put 'Students', '105', 'personal:course', 'BSc IT'
+put 'Students', '105', 'academic:semester', '5'
+put 'Students', '105', 'academic:marks', '69'
+
+# 2. Retrieve one student
+get 'Students', '101'
+
+# 3. Update student information
+put 'Students', '101', 'academic:marks', '86'
+
+# 4. Display all records
+scan 'Students'
+
+# 5. Delete a student record
+deleteall 'Students', '105'
+scan 'Students'

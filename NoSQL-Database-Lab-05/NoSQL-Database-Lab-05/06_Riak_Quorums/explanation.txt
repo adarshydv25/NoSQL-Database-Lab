@@ -1,0 +1,15 @@
+RIAK QUORUM NOTES
+
+N = number of replicas for an object (configured by bucket properties).
+R = number of replicas that must respond to a read.
+W = number of replicas that must acknowledge a write.
+DW = number of replicas that must confirm durable storage for a write.
+
+A common quorum rule is R + W > N, which helps reads overlap with acknowledged writes.
+For example, if N=3, R=2 and W=2, read and write quorums overlap.
+
+Quorum settings do not make Riak a traditional relational transaction system. Availability,
+conflict resolution, sibling handling and eventual consistency behavior depend on the
+Riak version, bucket properties and operation settings. The bucket's n_val must be
+compatible with the requested quorum values. A single-node lab cannot prove multi-node
+quorum behavior; use a real multi-node cluster and capture status/output.

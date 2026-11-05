@@ -1,0 +1,33 @@
+TASK 12 - CASSANDRA PEER-TO-PEER REPLICATION
+
+Cassandra nodes are peers. There is no fixed master that handles every write.
+Nodes coordinate requests, and data is replicated according to the keyspace strategy.
+
+For a multi-node cluster (example: three nodes in one datacenter), create:
+CREATE KEYSPACE CollegeCluster
+WITH replication = {
+  'class':'NetworkTopologyStrategy',
+  'datacenter1':3
+};
+
+USE CollegeCluster;
+CREATE TABLE Students (
+  Student_ID int PRIMARY KEY,
+  Name text,
+  Course text,
+  Marks int
+);
+INSERT INTO Students (Student_ID, Name, Course, Marks)
+VALUES (201, 'Meera', 'BCA', 87);
+
+Useful checks from a Cassandra node:
+- nodetool status
+- nodetool describecluster
+- SELECT * FROM CollegeCluster.Students;
+
+A replication factor of 3 means three replicas are maintained across eligible nodes
+in the datacenter. It does not mean three separate manual copies should be inserted.
+
+For a local lab, use at least three Cassandra nodes/containers on one Docker network.
+Configure unique listen/broadcast addresses and a common cluster name. Do not assume
+that a single-node installation demonstrates peer-to-peer replication.

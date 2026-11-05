@@ -1,0 +1,15 @@
+RIak SET CRDT
+
+A Set is a conflict-free replicated data type (CRDT) supported by Riak versions with
+Riak Data Types enabled. It stores unique elements and supports add/remove operations.
+The data type API is different from ordinary bucket/key PUT and GET endpoints.
+
+Set operations:
+- Add: insert a unique element.
+- Remove: remove an element.
+- Membership: read the set and check whether an element is present.
+- Common elements: retrieve two sets and calculate their intersection in application code.
+
+Riak's distributed set implementation handles concurrent updates according to its CRDT
+semantics. Verify that your installed version supports the Set data type and use the
+matching API format from that version's documentation.

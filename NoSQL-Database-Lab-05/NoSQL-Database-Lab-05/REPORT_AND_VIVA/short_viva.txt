@@ -1,0 +1,46 @@
+SHORT VIVA QUESTIONS AND ANSWERS
+
+1. What is Riak KV?
+   Riak KV is a distributed key-value NoSQL database.
+
+2. What is a bucket?
+   A bucket is a logical grouping of Riak objects.
+
+3. What is a key?
+   A key uniquely identifies an object inside a bucket.
+
+4. What is a value?
+   The data stored for a key, such as text or JSON.
+
+5. What is quorum?
+   It is the number of replicas that must respond to an operation.
+
+6. What is horizontal scaling?
+   Adding more nodes to increase storage and processing capacity.
+
+7. What is a CRDT Set?
+   A replicated set data type designed to merge concurrent changes consistently.
+
+8. What is Neo4j?
+   Neo4j is a graph database that stores nodes and relationships.
+
+9. What is Cypher?
+   Cypher is Neo4j's declarative graph query language.
+
+10. What is a relationship?
+    A connection between two nodes, such as a student ENROLLED_IN a course.
+
+11. What is a graph database useful for?
+    Social networks, recommendations, fraud detection and knowledge graphs.
+
+12. What is a transaction?
+    A group of database operations treated as one unit of work.
+
+13. Riak vs Neo4j?
+    Riak is key-value oriented; Neo4j is relationship/graph oriented.
+
+14. What is replication?
+    Keeping copies of data on multiple nodes.
+
+15. What is eventual consistency?
+    Replicas may temporarily differ but are expected to converge when updates propagate.

@@ -1,0 +1,14 @@
+TRANSACTION-LIKE WORKFLOW LIMITATIONS
+
+The above example stores the cart as one Riak object and replaces its value at each step.
+It is useful to demonstrate a sequence, but it is not equivalent to a relational ACID
+transaction across multiple records.
+
+Potential issues:
+- A failure between steps can leave only some steps completed.
+- Concurrent updates can overwrite one another unless conflict/version handling is used.
+- Updating cart, stock and payment as separate objects is not automatically atomic.
+- Applications may need idempotency, retry logic, conflict resolution and compensating actions.
+
+For critical money movement, use a database/system with transaction guarantees appropriate
+to the application rather than treating several Riak PUT requests as one transaction.

@@ -1,0 +1,9 @@
+BUCKET, KEY AND VALUE
+
+Bucket: a logical grouping/namespace for related objects. Example: students.
+Key: a unique name inside a bucket used to locate an object. Example: 101.
+Value: the stored bytes/data. Example: a JSON student record or plain text.
+
+A Riak KV object is addressed using bucket + key. Riak does not automatically understand
+every JSON field as an indexed query field. Content-Type helps describe the stored value,
+but does not itself create relational columns or automatic query indexes.

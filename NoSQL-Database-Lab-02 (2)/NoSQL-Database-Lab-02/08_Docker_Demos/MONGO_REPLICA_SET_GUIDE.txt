@@ -1,0 +1,52 @@
+TASK 11 - MONGODB PRIMARY-SECONDARY REPLICATION (LOCAL DEMO)
+
+This is a local learning setup using three MongoDB containers on one computer.
+It demonstrates replica-set behavior, not physical machine fault tolerance.
+
+1. Create a Docker network:
+   docker network create mongo-lab
+
+2. Start three MongoDB containers:
+   docker run -d --name mongo1 --network mongo-lab -p 27017:27017 mongo:7 mongod --replSet rs0 --bind_ip_all
+   docker run -d --name mongo2 --network mongo-lab -p 27018:27017 mongo:7 mongod --replSet rs0 --bind_ip_all
+   docker run -d --name mongo3 --network mongo-lab -p 27019:27017 mongo:7 mongod --replSet rs0 --bind_ip_all
+
+3. Open a shell:
+   docker exec -it mongo1 mongosh
+
+4. Initialize the replica set:
+   rs.initiate({
+     _id: "rs0",
+     members: [
+       {_id: 0, host: "mongo1:27017"},
+       {_id: 1, host: "mongo2:27017"},
+       {_id: 2, host: "mongo3:27017"}
+     ]
+   });
+
+5. Wait for election, then check:
+   rs.status();
+
+6. Insert data on the primary:
+   use CollegeDB;
+   db.ReplicationDemo.insertOne({Student_ID:301, Name:"Test Student", Marks:80});
+
+7. Connect to a secondary (from host):
+   mongosh "mongodb://localhost:27018/?directConnection=true"
+   rs.secondaryOk();
+   use CollegeDB;
+   db.ReplicationDemo.find();
+
+8. Failure test (optional):
+   Stop the current primary container:
+   docker stop mongo1
+   Check rs.status() from a remaining node. A new primary may be elected if a majority
+   of voting members are available. Since all containers share one computer, this is
+   not real hardware fault tolerance.
+
+Cleanup:
+   docker rm -f mongo1 mongo2 mongo3
+   docker network rm mongo-lab
+
+If Docker reports a port conflict, change the host-side ports. Do not stop a node before
+the initial replica set is healthy.

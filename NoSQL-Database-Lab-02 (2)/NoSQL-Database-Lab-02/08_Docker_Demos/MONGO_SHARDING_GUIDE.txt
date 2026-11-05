@@ -1,0 +1,50 @@
+TASKS 10 AND 13 - MONGODB SHARDING AND SHARDING + REPLICATION
+
+A real MongoDB sharded cluster needs:
+- Config server replica set (normally 3 config-server members in production)
+- At least two shard replica sets
+- One or more mongos routers
+
+For a classroom demo, use the official MongoDB sharded-cluster Docker Compose example
+or MongoDB's current documentation. The exact compose topology and commands vary by
+MongoDB version. Do not run sh.enableSharding() against a standalone mongod and call it
+a sharded deployment.
+
+After mongos is running, connect to mongos (not directly to a shard) and execute:
+
+sh.enableSharding("CollegeDB");
+
+use("CollegeDB");
+db.ShardStudents.drop();
+
+let rows = [];
+for (let i = 1; i <= 30; i++) {
+  rows.push({
+    Student_ID: i,
+    Name: "Student_" + i,
+    Course: i % 2 === 0 ? "BCA" : "BSc IT",
+    Semester: (i % 6) + 1,
+    Marks: 50 + (i % 50)
+  });
+}
+db.ShardStudents.insertMany(rows);
+
+sh.shardCollection("CollegeDB.ShardStudents", {Student_ID: "hashed"});
+
+Verify:
+sh.status();
+db.ShardStudents.getShardDistribution();
+
+For Task 13, configure each shard as a replica set. This means each shard has its own
+primary and secondary members. The router distributes records among shards; the replica
+set copies each shard's partition to its members.
+
+Report explanation:
+- Shard key: Student_ID (hashed in this example).
+- Sharding: distributes documents across shards.
+- Replication: keeps copies of each shard's data.
+- Benefit: horizontal scale plus availability when a replica member fails.
+- Limitation: additional infrastructure and operational complexity.
+
+This guide explains the commands and expected architecture. Complete a working cluster
+and capture sh.status()/getShardDistribution output before claiming successful deployment.

@@ -1,0 +1,35 @@
+TASK 10 - MONGODB SHARDING (GUIDED ARCHITECTURE)
+
+A sharded cluster has:
+1. Config server replica set: stores cluster metadata.
+2. Shard replica sets: store portions of the collection data.
+3. mongos: query router used by applications.
+
+Sample dataset with 20+ records (run in mongosh connected to the sharded cluster):
+use("CollegeDB");
+db.ShardStudents.drop();
+let docs = [];
+for (let i = 1; i <= 30; i++) {
+  docs.push({
+    Student_ID: i,
+    Name: "Student_" + i,
+    Course: i % 2 === 0 ? "BCA" : "BSc IT",
+    Semester: (i % 6) + 1,
+    Marks: 50 + (i % 50)
+  });
+}
+db.ShardStudents.insertMany(docs);
+
+Choose Student_ID as a shard key because it is present and evenly varied in this small example.
+In a real workload, select a key after checking query patterns and write distribution.
+
+After cluster is configured, run:
+sh.enableSharding("CollegeDB");
+sh.shardCollection("CollegeDB.ShardStudents", {Student_ID: "hashed"});
+sh.status();
+db.ShardStudents.getShardDistribution();
+
+IMPORTANT:
+The commands above only enable sharding if the MongoDB deployment is already a valid
+sharded cluster. A normal standalone mongod cannot distribute data to shards.
+Use the Docker guided setup in 08_Docker_Demos/MONGO_SHARDING_GUIDE.txt.
